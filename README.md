@@ -7,11 +7,15 @@ This is a simple project to show user information from Github API. This applicat
 ### Required
 
 - [x] Search user
+  - [x] Loading state
+  - [ ] Button/option menu to clears the search bar
 - [ ] User details
+  - [ ] Loading state
   - [ ] Tab Layout and ViewPager
     - [ ] Followers
+      - [ ] Loading state
     - [ ] Following
-- [ ] Loading state
+      - [ ] Loading state
 
 ### Optional
 

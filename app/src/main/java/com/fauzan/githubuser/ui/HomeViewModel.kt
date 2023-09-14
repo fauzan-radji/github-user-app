@@ -3,7 +3,6 @@ package com.fauzan.githubuser.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.fauzan.githubuser.utils.Error
 import com.fauzan.githubuser.data.response.SearchResponse
 import com.fauzan.githubuser.data.response.User
 import com.fauzan.githubuser.data.retrofit.ApiConfig
@@ -11,7 +10,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel: ViewModel() {
+class HomeViewModel: ViewModel() {
+
+    private var _loading = MutableLiveData<Boolean>()
+    var loading: LiveData<Boolean> = _loading
 
     private var _users = MutableLiveData<List<User>?>()
     var users: LiveData<List<User>?> = _users
@@ -22,12 +24,14 @@ class MainViewModel: ViewModel() {
     private val apiService = ApiConfig.getApiService()
 
     fun searchUsers(query: String) {
+        _loading.value = true
         val client = apiService.getUsers(query)
         client.enqueue(object: Callback<SearchResponse> {
             override fun onResponse(
                 call: Call<SearchResponse>,
                 response: Response<SearchResponse>
             ) {
+                _loading.value = false
                 if(response.isSuccessful) {
                     val responseBody = response.body()
                     if(responseBody == null) {
@@ -46,6 +50,7 @@ class MainViewModel: ViewModel() {
             }
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                _loading.value = false
                 _error.value = "Error: ${t.message}"
             }
         })
