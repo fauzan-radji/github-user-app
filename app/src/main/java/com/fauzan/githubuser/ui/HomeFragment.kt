@@ -7,19 +7,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzan.githubuser.databinding.FragmentHomeBinding
 import com.fauzan.githubuser.utils.Error
 
 class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by viewModels<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -44,12 +46,16 @@ class HomeFragment : Fragment() {
                 binding.tvEmpty.visibility = View.VISIBLE
             } else {
                 binding.tvEmpty.visibility = View.INVISIBLE
-                binding.rvUsers.adapter = UserAdapter(users)
+                binding.rvUsers.adapter = UserAdapter(users) { user ->
+                    val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+                    toDetailFragment.username = user.login
+                    view.findNavController().navigate(toDetailFragment)
+                }
             }
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-            Error(binding.root, it,).show()
+            Error(binding.root, it).show()
         }
 
         viewModel.loading.observe(viewLifecycleOwner) {isLoading ->
@@ -63,5 +69,10 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

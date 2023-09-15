@@ -8,7 +8,7 @@ import com.fauzan.githubuser.R
 import com.fauzan.githubuser.data.response.User
 import com.fauzan.githubuser.databinding.ItemUserBinding
 
-class UserAdapter(private val users: List<User>) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val users: List<User>, private val onItemClickCallback: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
     class ViewHolder(private val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             binding.tvUsername.text = user.login
@@ -23,8 +23,12 @@ class UserAdapter(private val users: List<User>) : RecyclerView.Adapter<UserAdap
     }
 
     override fun getItemCount(): Int = users.size
-
+    
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(users[position])
+        val user = users[position]
+        holder.bind(user)
+        holder.itemView.setOnClickListener {
+            onItemClickCallback(user)
+        }
     }
 }
