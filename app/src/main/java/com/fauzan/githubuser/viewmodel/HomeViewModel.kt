@@ -1,37 +1,27 @@
-package com.fauzan.githubuser.ui
+package com.fauzan.githubuser.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.fauzan.githubuser.data.response.SearchResponse
 import com.fauzan.githubuser.data.response.User
-import com.fauzan.githubuser.data.retrofit.ApiConfig
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeViewModel: ViewModel() {
-
-    private var _loading = MutableLiveData<Boolean>()
-    var loading: LiveData<Boolean> = _loading
+class HomeViewModel: ApiViewModel() {
 
     private var _users = MutableLiveData<List<User>?>()
     var users: LiveData<List<User>?> = _users
 
-    private var _error = MutableLiveData<String>()
-    var error: LiveData<String> = _error
-
-    private val apiService = ApiConfig.getApiService()
-
     fun searchUsers(query: String) {
-        _loading.value = true
+        setLoading(true)
         val client = apiService.getUsers(query)
         client.enqueue(object: Callback<SearchResponse> {
             override fun onResponse(
                 call: Call<SearchResponse>,
                 response: Response<SearchResponse>
             ) {
-                _loading.value = false
+                setLoading(false)
                 if(response.isSuccessful) {
                     val responseBody = response.body()
                     if(responseBody == null) {
@@ -40,18 +30,18 @@ class HomeViewModel: ViewModel() {
                         _users.value = responseBody.items
                     }
                 } else {
-                    _error.value = when(response.code()) {
+                    setError(when(response.code()) {
                         401 -> "401: Bad Request"
                         403 -> "403: Forbidden"
                         404 -> "404: Not Found"
                         else -> "Error: ${response.message()}"
-                    }
+                    })
                 }
             }
 
             override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                _loading.value = false
-                _error.value = "Error: ${t.message}"
+                setLoading(false)
+                setError("Error: ${t.message}")
             }
         })
     }

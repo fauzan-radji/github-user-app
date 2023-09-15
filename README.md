@@ -10,12 +10,13 @@ This is a simple project to show user information from Github API. This applicat
   - [x] Loading state
   - [ ] Button/option menu to clears the search bar
 - [ ] User details
-  - [ ] Loading state
+  - [x] Loading state
+  - [x] Back button
   - [ ] Tab Layout and ViewPager
     - [ ] Followers
-      - [ ] Loading state
+      - [x] Loading state
     - [ ] Following
-      - [ ] Loading state
+      - [x] Loading state
 
 ### Optional
 
@@ -24,3 +25,5 @@ This is a simple project to show user information from Github API. This applicat
 - [ ] Custom splash screen
 - [ ] Custom icon
 - [ ] Custom color
+- [ ] Custom font
+- [ ] Image for Glide placeholder on loading state

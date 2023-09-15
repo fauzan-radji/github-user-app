@@ -24,4 +24,19 @@ data class User(
 
 	@field:SerializedName("id")
 	val id: Int,
+
+	@field:SerializedName("name")
+	val name: String?,
+
+	@field:SerializedName("public_repos")
+	val publicRepos: Int?,
+
+	@field:SerializedName("public_gists")
+	val publicGists: Int?,
+
+	@field:SerializedName("followers")
+	val followers: Int?,
+
+	@field:SerializedName("following")
+	val following: Int?,
 )

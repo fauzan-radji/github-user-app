@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzan.githubuser.databinding.FragmentHomeBinding
 import com.fauzan.githubuser.utils.Error
+import com.fauzan.githubuser.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
 
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
-            rvUsers.layoutManager = LinearLayoutManager(requireActivity())
+            rvUsers.layoutManager = LinearLayoutManager(activity)
             searchView.editText.setOnEditorActionListener { _, _, _ ->
                 val query = searchView.text.toString()
                 binding.searchBar.text = query
