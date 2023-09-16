@@ -9,13 +9,13 @@ This is a simple project to show user information from Github API. This applicat
 - [x] Search user
   - [x] Loading state
   - [ ] Button/option menu to clears the search bar
-- [ ] User details
+- [x] User details
   - [x] Loading state
   - [x] Back button
-  - [ ] Tab Layout and ViewPager
-    - [ ] Followers
+  - [x] Tab Layout and ViewPager
+    - [x] Followers
       - [x] Loading state
-    - [ ] Following
+    - [x] Following
       - [x] Loading state
 
 ### Optional

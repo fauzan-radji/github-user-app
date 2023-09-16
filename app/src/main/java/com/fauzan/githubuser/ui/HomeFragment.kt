@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observe()
 
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
@@ -41,7 +42,9 @@ class HomeFragment : Fragment() {
                 false
             }
         }
+    }
 
+    private fun observe() {
         viewModel.users.observe(viewLifecycleOwner) { users ->
             if(users == null) {
                 binding.tvEmpty.visibility = View.VISIBLE
@@ -50,7 +53,7 @@ class HomeFragment : Fragment() {
                 binding.rvUsers.adapter = UserAdapter(users) { user ->
                     val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
                     toDetailFragment.username = user.login
-                    view.findNavController().navigate(toDetailFragment)
+                    view?.findNavController()?.navigate(toDetailFragment)
                 }
             }
         }

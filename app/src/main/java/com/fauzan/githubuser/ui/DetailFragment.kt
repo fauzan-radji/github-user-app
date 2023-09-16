@@ -39,7 +39,7 @@ class DetailFragment : Fragment() {
         viewModel.getUserDetail(safeArgs.username)
         observe()
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(activity as AppCompatActivity)
+        val sectionsPagerAdapter = SectionsPagerAdapter(activity as AppCompatActivity, safeArgs.username)
         binding.viewPager.adapter = sectionsPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when(position) {
