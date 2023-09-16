@@ -8,7 +8,7 @@ This is a simple project to show user information from Github API. This applicat
 
 - [x] Search user
   - [x] Loading state
-  - [ ] Button/option menu to clears the search bar
+  - [x] Button/option menu to clears the search bar
 - [x] User details
   - [x] Loading state
   - [x] Back button
@@ -21,9 +21,12 @@ This is a simple project to show user information from Github API. This applicat
 ### Optional
 
 - [ ] Error feedback
+- [ ] Use single event
 - [ ] On typing search
 - [ ] Custom splash screen
-- [ ] Custom icon
-- [ ] Custom color
+- [x] Custom icon
+- [x] Custom color
 - [ ] Custom font
 - [ ] Image for Glide placeholder on loading state
+- [ ] Skeleton screen for loading state
+- [ ] Use Github PAT

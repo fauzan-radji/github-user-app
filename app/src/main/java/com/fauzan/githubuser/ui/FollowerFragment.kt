@@ -1,5 +1,6 @@
 package com.fauzan.githubuser.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,8 +19,8 @@ class FollowerFragment : Fragment() {
 
     private var _binding: FragmentFollowerBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel by viewModels<DetailViewModel>()
+    private val users = arrayListOf<User>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,8 +32,14 @@ class FollowerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observe()
 
         binding.rvFollowers.layoutManager = LinearLayoutManager(activity)
+        binding.rvFollowers.adapter = UserAdapter(users) { user ->
+            val toDetailFragment = DetailFragmentDirections.actionDetailFragmentSelf()
+            toDetailFragment.username = user.login
+            view.findNavController().navigate(toDetailFragment)
+        }
 
         val username = arguments?.getString(EXTRA_USERNAME) as String
         val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -41,8 +48,6 @@ class FollowerFragment : Fragment() {
             @Suppress("DEPRECATION")
             arguments?.getSerializable(EXTRA_TYPE) as FollowerType
         }
-
-        observe(type)
 
         when(type) {
             FollowerType.FOLLOWER -> {
@@ -54,14 +59,12 @@ class FollowerFragment : Fragment() {
         }
     }
 
-    private fun observe(type: FollowerType) {
-        when(type) {
-            FollowerType.FOLLOWER -> {
-                viewModel.followers.observe(viewLifecycleOwner) { updateRv(it) }
-            }
-            FollowerType.FOLLOWING -> {
-                viewModel.following.observe(viewLifecycleOwner) { updateRv(it) }
-            }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun observe() {
+        viewModel.users.observe(viewLifecycleOwner) { users ->
+            this.users.clear()
+            this.users.addAll(users)
+            binding.rvFollowers.adapter?.notifyDataSetChanged()
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
@@ -73,16 +76,6 @@ class FollowerFragment : Fragment() {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.INVISIBLE
-            }
-        }
-    }
-
-    private fun updateRv(users: List<User>?) {
-        if(users != null) {
-            binding.rvFollowers.adapter = UserAdapter(users) { user ->
-                val toDetailFragment = DetailFragmentDirections.actionDetailFragmentSelf()
-                toDetailFragment.username = user.login
-                view?.findNavController()?.navigate(toDetailFragment)
             }
         }
     }

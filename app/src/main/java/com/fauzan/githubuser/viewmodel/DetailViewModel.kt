@@ -9,11 +9,8 @@ class DetailViewModel: ApiViewModel() {
     private var _user = MutableLiveData<User>()
     var user: LiveData<User> = _user
 
-    private var _followers = MutableLiveData<List<User>?>()
-    var followers: LiveData<List<User>?> = _followers
-
-    private var _following = MutableLiveData<List<User>?>()
-    var following: LiveData<List<User>?> = _following
+    private var _users = MutableLiveData<List<User>>()
+    var users: LiveData<List<User>> = _users
 
     fun getUserDetail(username: String) {
         request(
@@ -47,10 +44,8 @@ class DetailViewModel: ApiViewModel() {
             onResponse = { response ->
                 if(response.isSuccessful) {
                     val responseBody = response.body()
-                    if(responseBody == null) {
-                        _followers.value = null
-                    } else {
-                        _followers.value = responseBody
+                    if(responseBody != null) {
+                        _users.value = responseBody
                     }
                 } else {
                     setError(when(response.code()) {
@@ -73,10 +68,8 @@ class DetailViewModel: ApiViewModel() {
             onResponse = { response ->
                 if(response.isSuccessful) {
                     val responseBody = response.body()
-                    if(responseBody == null) {
-                        _following.value = null
-                    } else {
-                        _following.value = responseBody
+                    if(responseBody != null) {
+                        _users.value = responseBody
                     }
                 } else {
                     setError(when(response.code()) {

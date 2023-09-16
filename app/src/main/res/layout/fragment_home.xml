@@ -23,6 +23,7 @@
         android:layout_marginTop="1dp"
         android:layout_marginEnd="8dp"
         android:hint="@string/search_hint"
+        app:menu="@menu/clear_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top_app_bar" />
@@ -52,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,14 +61,18 @@
         app:layout_constraintTop_toBottomOf="@id/search_bar"
         tools:listitem="@layout/item_user" />
 
-    <TextView
-        android:id="@+id/tv_empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search_hint"
+    <ImageView
+        android:id="@+id/iv_empty_state"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/search_hint"
+        android:src="@drawable/search_empty_state"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintVertical_bias="0.35"
+        app:layout_constraintWidth_percent="0.8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

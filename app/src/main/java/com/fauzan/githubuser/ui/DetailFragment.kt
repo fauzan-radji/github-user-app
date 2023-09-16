@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.fauzan.githubuser.R
 import com.fauzan.githubuser.databinding.FragmentDetailBinding
 import com.fauzan.githubuser.viewmodel.DetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
@@ -43,8 +44,8 @@ class DetailFragment : Fragment() {
         binding.viewPager.adapter = sectionsPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when(position) {
-                0 -> tab.text = "Follower"
-                1 -> tab.text = "Following"
+                0 -> tab.text = getString(R.string.followers)
+                1 -> tab.text = getString(R.string.following)
             }
         }.attach()
     }
@@ -60,15 +61,15 @@ class DetailFragment : Fragment() {
             binding.tvRepositories.text = user.publicRepos.toString()
             binding.tvGists.text = user.publicGists.toString()
 
-            binding.tabLayout.getTabAt(0)?.text = "Follower (${user.followers})"
-            binding.tabLayout.getTabAt(1)?.text = "Following (${user.following})"
+            binding.tabLayout.getTabAt(0)?.text = "${getString(R.string.followers)} (${user.followers})"
+            binding.tabLayout.getTabAt(1)?.text = "${getString(R.string.following)} (${user.following})"
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if(isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
-                binding.progressBar.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.GONE
             }
         }
     }
