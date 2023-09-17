@@ -56,6 +56,7 @@ class DetailFragment : Fragment() {
             binding.tvUsername.text = user.login
             Glide.with(this)
                 .load(user.avatarUrl)
+                .placeholder(R.drawable.default_avatar)
                 .into(binding.ivProfile)
 
             binding.tvRepositories.text = user.publicRepos.toString()

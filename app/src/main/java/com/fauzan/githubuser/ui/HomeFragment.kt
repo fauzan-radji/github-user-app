@@ -67,6 +67,26 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun showEmptyState(show: Boolean) {
+        if(show) {
+            binding.ivEmptyState.visibility = View.VISIBLE
+            binding.tvEmptyState.visibility = View.VISIBLE
+        } else {
+            binding.ivEmptyState.visibility = View.GONE
+            binding.tvEmptyState.visibility = View.GONE
+        }
+    }
+
+    private fun showNoData(show: Boolean) {
+        if(show) {
+            binding.ivNoData.visibility = View.VISIBLE
+            binding.tvNoData.visibility = View.VISIBLE
+        } else {
+            binding.ivNoData.visibility = View.GONE
+            binding.tvNoData.visibility = View.GONE
+        }
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun observe() {
         viewModel.searchQuery.observe(viewLifecycleOwner) { query ->
@@ -78,12 +98,14 @@ class HomeFragment : Fragment() {
             this.users.clear()
 
             if(users == null) {
-                binding.ivEmptyState.visibility = View.VISIBLE
+                showEmptyState(true)
+                showNoData(false)
             }else if (users.isEmpty()) {
-                // TODO: Show not found image
-                binding.ivEmptyState.visibility = View.VISIBLE
+                showNoData(true)
+                showEmptyState(false)
             } else {
-                binding.ivEmptyState.visibility = View.GONE
+                showEmptyState(false)
+                showNoData(false)
                 this.users.addAll(users)
             }
 
@@ -97,7 +119,10 @@ class HomeFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if(isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
-                binding.ivEmptyState.visibility = View.GONE
+
+                showEmptyState(false)
+                showNoData(false)
+
                 binding.rvUsers.visibility = View.GONE
             } else {
                 binding.progressBar.visibility = View.GONE

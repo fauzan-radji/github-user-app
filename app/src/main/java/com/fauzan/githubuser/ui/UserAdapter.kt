@@ -13,7 +13,10 @@ class UserAdapter(private val users: List<User>, private val onItemClickCallback
         fun bind(user: User) {
             binding.tvUsername.text = user.login
             binding.tvUserUrl.text = itemView.resources.getString(R.string.user_url, user.login)
-            Glide.with(itemView).load(user.avatarUrl).into(binding.ivProfile)
+            Glide.with(itemView)
+                .load(user.avatarUrl)
+                .placeholder(R.drawable.default_avatar)
+                .into(binding.ivProfile)
         }
     }
 

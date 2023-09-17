@@ -20,12 +20,12 @@ This is a simple project to show user information from Github API. This applicat
 
 ### Optional
 
-- [ ] Error feedback
+- [ ] Give `retry` action when API request is failed
 - [ ] On typing search
-- [ ] Custom splash screen
+- [x] Custom splash screen
 - [x] Custom icon
 - [x] Custom color
 - [ ] Custom font
-- [ ] Image for Glide placeholder on loading state
+- [x] Image for Glide placeholder on loading state
 - [ ] Skeleton screen for loading state
 - [ ] Use Github PAT
