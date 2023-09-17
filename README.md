@@ -21,7 +21,6 @@ This is a simple project to show user information from Github API. This applicat
 ### Optional
 
 - [ ] Error feedback
-- [ ] Use single event
 - [ ] On typing search
 - [ ] Custom splash screen
 - [x] Custom icon

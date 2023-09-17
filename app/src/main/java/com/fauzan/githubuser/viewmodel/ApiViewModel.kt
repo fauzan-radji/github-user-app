@@ -12,13 +12,13 @@ abstract class ApiViewModel: ViewModel() {
     private var _loading = MutableLiveData<Boolean>()
     var loading: LiveData<Boolean> = _loading
     protected fun setLoading(value: Boolean) {
-        _loading.value = value
+        _loading.postValue(value)
     }
 
     private var _error = MutableLiveData<String>()
     var error: LiveData<String> = _error
     protected fun setError(value: String) {
-        _error.value = value
+        _error.postValue(value)
     }
 
     protected val apiService = ApiConfig.getApiService()
