@@ -28,4 +28,4 @@ This is a simple project to show user information from Github API. This applicat
 - [ ] Custom font
 - [x] Image for Glide placeholder on loading state
 - [ ] Skeleton screen for loading state
-- [ ] Use Github PAT
+- [x] Use Github PAT (expire in September 25th, 2021)
