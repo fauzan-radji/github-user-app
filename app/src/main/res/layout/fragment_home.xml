@@ -75,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:layout_constraintVertical_bias="0.35"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintHeight_percent="0.4" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_empty_state"
@@ -102,7 +102,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:layout_constraintVertical_bias="0.35"
-        app:layout_constraintWidth_percent="0.6" />
+        app:layout_constraintHeight_percent="0.4" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_no_data"
