@@ -9,14 +9,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 abstract class ApiViewModel: ViewModel() {
-    private var _loading = MutableLiveData<Boolean>()
-    var loading: LiveData<Boolean> = _loading
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> = _loading
     protected fun setLoading(value: Boolean) {
         _loading.postValue(value)
     }
 
-    private var _error = MutableLiveData<String>()
-    var error: LiveData<String> = _error
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
     protected fun setError(value: String) {
         _error.postValue(value)
     }

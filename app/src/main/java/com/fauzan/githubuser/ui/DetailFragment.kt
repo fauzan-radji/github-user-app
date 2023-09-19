@@ -30,6 +30,7 @@ class DetailFragment : Fragment() {
             activity?.onBackPressed()
         }
 
+        observe()
         return binding.root
     }
 
@@ -38,7 +39,6 @@ class DetailFragment : Fragment() {
 
         val safeArgs = DetailFragmentArgs.fromBundle(arguments as Bundle)
         viewModel.getUserDetail(safeArgs.username)
-        observe()
 
         val sectionsPagerAdapter = SectionsPagerAdapter(activity as AppCompatActivity, safeArgs.username)
         binding.viewPager.adapter = sectionsPagerAdapter

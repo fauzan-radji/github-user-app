@@ -1,6 +1,5 @@
 package com.fauzan.githubuser.ui
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzan.githubuser.R
-import com.fauzan.githubuser.data.response.User
 import com.fauzan.githubuser.databinding.FragmentHomeBinding
 import com.fauzan.githubuser.utils.Error
 import com.fauzan.githubuser.viewmodel.HomeViewModel
@@ -21,19 +19,25 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeViewModel>()
-    private val users = arrayListOf<User>()
+    private val userAdapter: UserAdapter by lazy {
+        UserAdapter(mutableListOf()) { user ->
+            val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+            toDetailFragment.username = user.login
+            view?.findNavController()?.navigate(toDetailFragment)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        observe()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observe()
         setupRecyclerView()
         setupSearchBar()
     }
@@ -46,11 +50,7 @@ class HomeFragment : Fragment() {
             binding.rvUsers.layoutManager = GridLayoutManager(activity, 2)
         }
         
-        binding.rvUsers.adapter = UserAdapter(users) { user ->
-            val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
-            toDetailFragment.username = user.login
-            view?.findNavController()?.navigate(toDetailFragment)
-        }
+        binding.rvUsers.adapter = userAdapter
     }
 
     private fun setupSearchBar() {
@@ -87,29 +87,25 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun observe() {
-        viewModel.searchQuery.observe(viewLifecycleOwner) { query ->
-            binding.searchBar.text = query
-            binding.searchBar.menu.findItem(R.id.action_clear).isVisible = query.isNotEmpty()
-        }
-
         viewModel.users.observe(viewLifecycleOwner) { users ->
-            this.users.clear()
-
             if(users == null) {
                 showEmptyState(true)
                 showNoData(false)
-            }else if (users.isEmpty()) {
+            } else if (users.isEmpty()) {
                 showNoData(true)
                 showEmptyState(false)
             } else {
                 showEmptyState(false)
                 showNoData(false)
-                this.users.addAll(users)
             }
 
-            binding.rvUsers.adapter?.notifyDataSetChanged()
+            userAdapter.updateData(users)
+        }
+
+        viewModel.searchQuery.observe(viewLifecycleOwner) { query ->
+            binding.searchBar.text = query
+            binding.searchBar.menu.findItem(R.id.action_clear).isVisible = query.isNotEmpty()
         }
 
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->

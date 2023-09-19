@@ -6,16 +6,16 @@ import com.fauzan.githubuser.data.response.User
 
 class HomeViewModel: ApiViewModel() {
 
-    private var _users = MutableLiveData<List<User>?>()
-    var users: LiveData<List<User>?> = _users
+    private val _users = MutableLiveData<List<User>?>()
+    val users: LiveData<List<User>?> = _users
 
-    private var _searchQuery = MutableLiveData<String>()
-    var searchQuery: LiveData<String> = _searchQuery
+    private val _searchQuery = MutableLiveData<String>()
+    val searchQuery: LiveData<String> = _searchQuery
 
     fun searchUsers(query: String) {
-        _searchQuery.value = query
+        _searchQuery.postValue(query)
         if(query.isEmpty()) {
-            _users.value = null
+            _users.postValue(null)
         } else {
             request(
                 client = apiService.getUsers(query),

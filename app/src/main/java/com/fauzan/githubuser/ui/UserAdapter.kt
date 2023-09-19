@@ -2,13 +2,24 @@ package com.fauzan.githubuser.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fauzan.githubuser.R
 import com.fauzan.githubuser.data.response.User
 import com.fauzan.githubuser.databinding.ItemUserBinding
+import com.fauzan.githubuser.diffutil.UserDiffUtilCallback
 
-class UserAdapter(private val users: List<User>, private val onItemClickCallback: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+class UserAdapter(private val users: MutableList<User>, private val onItemClickCallback: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+    fun updateData(newUsers: List<User>?) {
+        val diffResult = DiffUtil.calculateDiff(UserDiffUtilCallback(users, newUsers ?: listOf()))
+        users.clear()
+        if (newUsers != null) {
+            users.addAll(newUsers)
+        }
+        diffResult.dispatchUpdatesTo(this)
+    }
+
     class ViewHolder(private val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             binding.tvUsername.text = user.login

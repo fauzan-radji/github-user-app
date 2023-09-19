@@ -7,11 +7,11 @@ import retrofit2.Response
 
 class DetailViewModel: ApiViewModel() {
 
-    private var _user = MutableLiveData<User>()
-    var user: LiveData<User> = _user
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
 
-    private var _users = MutableLiveData<List<User>>()
-    var users: LiveData<List<User>> = _users
+    private val _users = MutableLiveData<List<User>>()
+    val users: LiveData<List<User>> = _users
 
     private val defaultOnFailure = { t: Throwable ->
         setError("Error: ${t.message}")

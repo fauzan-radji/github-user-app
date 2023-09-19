@@ -1,6 +1,5 @@
 package com.fauzan.githubuser.ui
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -21,25 +20,28 @@ class FollowerFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<DetailViewModel>()
     private val users = arrayListOf<User>()
+    private val userAdapter: UserAdapter by lazy {
+        UserAdapter(users) { user ->
+            val toDetailFragment = DetailFragmentDirections.actionDetailFragmentSelf()
+            toDetailFragment.username = user.login
+            view?.findNavController()?.navigate(toDetailFragment)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFollowerBinding.inflate(inflater, container, false)
+        observe()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observe()
 
-        binding.rvFollowers.layoutManager = LinearLayoutManager(activity)
-        binding.rvFollowers.adapter = UserAdapter(users) { user ->
-            val toDetailFragment = DetailFragmentDirections.actionDetailFragmentSelf()
-            toDetailFragment.username = user.login
-            view.findNavController().navigate(toDetailFragment)
-        }
+        binding.rvUsers.layoutManager = LinearLayoutManager(activity)
+        binding.rvUsers.adapter = userAdapter
 
         val username = arguments?.getString(EXTRA_USERNAME) as String
         val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -59,12 +61,9 @@ class FollowerFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun observe() {
         viewModel.users.observe(viewLifecycleOwner) { users ->
-            this.users.clear()
-            this.users.addAll(users)
-            binding.rvFollowers.adapter?.notifyDataSetChanged()
+            userAdapter.updateData(users)
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
