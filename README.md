@@ -58,8 +58,20 @@ This is a simple project to show user information from Github API. This applicat
   - [ ] Create ThemeViewModelTest
 - [ ] UI Testing
   - [ ] Create HomeFragmentTest
+    - [ ] Search User Testing
+    - [ ] Click User Testing
   - [ ] Create DetailFragmentTest
+    - [ ] Swipe Tab Testing
+    - [ ] Click Tab Testing
+    - [ ] Click Followers Testing
+    - [ ] Click Following Testing
+    - [ ] Click Share Testing
+    - [ ] Click Favorite Testing
+    - [ ] Click Unfavorite Testing
+    - [ ] Click Back Testing
   - [ ] Create FavoriteFragmentTest
+    - [ ] Click FavoriteUser Testing
+    - [ ] Click Unfavorite Testing
   - [ ] Create ThemeFragmentTest
 - [ ] Database
   - [ ] Create Repository for Favorite
