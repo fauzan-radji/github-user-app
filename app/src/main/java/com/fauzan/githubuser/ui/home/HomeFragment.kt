@@ -1,4 +1,4 @@
-package com.fauzan.githubuser.ui
+package com.fauzan.githubuser.ui.home
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzan.githubuser.R
 import com.fauzan.githubuser.databinding.FragmentHomeBinding
+import com.fauzan.githubuser.ui.UserAdapter
 import com.fauzan.githubuser.utils.Error
-import com.fauzan.githubuser.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeViewModel>()
@@ -28,7 +29,8 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -42,49 +44,9 @@ class HomeFragment : Fragment() {
         setupSearchBar()
     }
 
-    private fun setupRecyclerView() {
-        val orientation = activity?.resources?.configuration?.orientation
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            binding.rvUsers.layoutManager = LinearLayoutManager(activity)
-        } else if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.rvUsers.layoutManager = GridLayoutManager(activity, 2)
-        }
-        
-        binding.rvUsers.adapter = userAdapter
-    }
-
-    private fun setupSearchBar() {
-        binding.searchView.setupWithSearchBar(binding.searchBar)
-        binding.searchView.editText.setOnEditorActionListener { _, _, _ ->
-            viewModel.searchUsers(binding.searchView.text.toString())
-            binding.searchView.hide()
-            false
-        }
-
-        binding.searchBar.setOnMenuItemClickListener {
-            viewModel.searchUsers("")
-            false
-        }
-    }
-
-    private fun showEmptyState(show: Boolean) {
-        if(show) {
-            binding.ivEmptyState.visibility = View.VISIBLE
-            binding.tvEmptyState.visibility = View.VISIBLE
-        } else {
-            binding.ivEmptyState.visibility = View.GONE
-            binding.tvEmptyState.visibility = View.GONE
-        }
-    }
-
-    private fun showNoData(show: Boolean) {
-        if(show) {
-            binding.ivNoData.visibility = View.VISIBLE
-            binding.tvNoData.visibility = View.VISIBLE
-        } else {
-            binding.ivNoData.visibility = View.GONE
-            binding.tvNoData.visibility = View.GONE
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun observe() {
@@ -127,8 +89,48 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    private fun showEmptyState(show: Boolean) {
+        if(show) {
+            binding.ivEmptyState.visibility = View.VISIBLE
+            binding.tvEmptyState.visibility = View.VISIBLE
+        } else {
+            binding.ivEmptyState.visibility = View.GONE
+            binding.tvEmptyState.visibility = View.GONE
+        }
+    }
+
+    private fun showNoData(show: Boolean) {
+        if(show) {
+            binding.ivNoData.visibility = View.VISIBLE
+            binding.tvNoData.visibility = View.VISIBLE
+        } else {
+            binding.ivNoData.visibility = View.GONE
+            binding.tvNoData.visibility = View.GONE
+        }
+    }
+
+    private fun setupRecyclerView() {
+        val orientation = activity?.resources?.configuration?.orientation
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding.rvUsers.layoutManager = LinearLayoutManager(activity)
+        } else if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.rvUsers.layoutManager = GridLayoutManager(activity, 2)
+        }
+
+        binding.rvUsers.adapter = userAdapter
+    }
+
+    private fun setupSearchBar() {
+        binding.searchView.setupWithSearchBar(binding.searchBar)
+        binding.searchView.editText.setOnEditorActionListener { _, _, _ ->
+            viewModel.searchUsers(binding.searchView.text.toString())
+            binding.searchView.hide()
+            false
+        }
+
+        binding.searchBar.setOnMenuItemClickListener {
+            viewModel.searchUsers("")
+            false
+        }
     }
 }

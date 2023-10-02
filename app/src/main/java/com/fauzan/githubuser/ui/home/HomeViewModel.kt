@@ -1,8 +1,9 @@
-package com.fauzan.githubuser.viewmodel
+package com.fauzan.githubuser.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.fauzan.githubuser.data.response.User
+import com.fauzan.githubuser.ui.ApiViewModel
 
 class HomeViewModel: ApiViewModel() {
 

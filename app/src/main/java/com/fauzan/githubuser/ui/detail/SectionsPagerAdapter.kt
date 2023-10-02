@@ -1,4 +1,4 @@
-package com.fauzan.githubuser.ui
+package com.fauzan.githubuser.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

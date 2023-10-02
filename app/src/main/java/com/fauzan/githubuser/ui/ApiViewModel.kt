@@ -1,4 +1,4 @@
-package com.fauzan.githubuser.viewmodel
+package com.fauzan.githubuser.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

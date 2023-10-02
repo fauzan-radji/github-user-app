@@ -1,4 +1,4 @@
-package com.fauzan.githubuser.ui
+package com.fauzan.githubuser.ui.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.fauzan.githubuser.R
 import com.fauzan.githubuser.databinding.FragmentDetailBinding
-import com.fauzan.githubuser.viewmodel.DetailViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailFragment : Fragment() {
@@ -25,10 +24,6 @@ class DetailFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
-
-        binding.topAppBar.setNavigationOnClickListener {
-            activity?.onBackPressed()
-        }
 
         observe()
         return binding.root

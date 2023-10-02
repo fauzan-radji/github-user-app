@@ -1,4 +1,4 @@
-package com.fauzan.githubuser.ui
+package com.fauzan.githubuser.ui.detail
 
 import android.os.Build
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzan.githubuser.data.response.User
 import com.fauzan.githubuser.databinding.FragmentFollowerBinding
+import com.fauzan.githubuser.ui.UserAdapter
 import com.fauzan.githubuser.utils.Error
-import com.fauzan.githubuser.viewmodel.DetailViewModel
 
 class FollowerFragment : Fragment() {
 
