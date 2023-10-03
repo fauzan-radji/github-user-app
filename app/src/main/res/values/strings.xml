@@ -16,4 +16,5 @@
     <string name="title_home">Beranda</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_settings">Pengaturan</string>
+    <string name="title_detail">Detail</string>
 </resources>
