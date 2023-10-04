@@ -14,7 +14,7 @@
     <string name="no_data">Data tidak ditemukan</string>
     <string name="invertocat">invertocat</string>
     <string name="title_home">Beranda</string>
-    <string name="title_favorite">Favorite</string>
+    <string name="title_favorite">Favorit</string>
     <string name="title_settings">Pengaturan</string>
     <string name="title_detail">Detail</string>
 </resources>

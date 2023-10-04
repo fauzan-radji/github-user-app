@@ -9,19 +9,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.fauzan.githubuser.data.response.User
+import com.fauzan.githubuser.data.Result
+import com.fauzan.githubuser.data.local.entity.UserEntity
 import com.fauzan.githubuser.databinding.FragmentFollowerBinding
 import com.fauzan.githubuser.ui.UserAdapter
+import com.fauzan.githubuser.ui.ViewModelFactory
 import com.fauzan.githubuser.utils.Error
 
 class FollowerFragment : Fragment() {
 
     private var _binding: FragmentFollowerBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<DetailViewModel>()
-    private val users = arrayListOf<User>()
+    private val viewModel by viewModels<DetailViewModel> { ViewModelFactory.getInstance(requireActivity()) }
     private val userAdapter: UserAdapter by lazy {
-        UserAdapter(users) { user ->
+        UserAdapter(mutableListOf()) { user ->
             val toDetailFragment = DetailFragmentDirections.actionDetailFragmentSelf()
             toDetailFragment.username = user.login
             view?.findNavController()?.navigate(toDetailFragment)
@@ -33,8 +34,12 @@ class FollowerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFollowerBinding.inflate(inflater, container, false)
-        observe()
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,30 +56,32 @@ class FollowerFragment : Fragment() {
             arguments?.getSerializable(EXTRA_TYPE) as FollowerType
         }
 
-        when(type) {
-            FollowerType.FOLLOWER -> {
-                viewModel.getUserFollowers(username)
-            }
-            FollowerType.FOLLOWING -> {
-                viewModel.getUserFollowing(username)
+        observe(username, type) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    userAdapter.updateData(result.data)
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Error(binding.root, result.message).show()
+                }
             }
         }
     }
 
-    private fun observe() {
-        viewModel.users.observe(viewLifecycleOwner) { users ->
-            userAdapter.updateData(users)
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) {
-            Error(binding.root, it).show()
-        }
-
-        viewModel.loading.observe(viewLifecycleOwner) {isLoading ->
-            if(isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.INVISIBLE
+    private fun observe(username: String, type: FollowerType, observer: (Result<List<UserEntity>>) -> Unit) {
+        when(type) {
+            FollowerType.FOLLOWER -> {
+                viewModel.getUserFollowers(username).observe(viewLifecycleOwner, observer)
+            }
+            FollowerType.FOLLOWING -> {
+                viewModel.getUserFollowing(username).observe(viewLifecycleOwner, observer)
             }
         }
     }

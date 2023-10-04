@@ -11,15 +11,17 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzan.githubuser.R
+import com.fauzan.githubuser.data.Result
 import com.fauzan.githubuser.databinding.FragmentHomeBinding
 import com.fauzan.githubuser.ui.UserAdapter
+import com.fauzan.githubuser.ui.ViewModelFactory
 import com.fauzan.githubuser.utils.Error
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by viewModels<HomeViewModel> { ViewModelFactory.getInstance(requireActivity()) }
     private val userAdapter: UserAdapter by lazy {
         UserAdapter(mutableListOf()) { user ->
             val toDetailFragment = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
@@ -50,42 +52,49 @@ class HomeFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.users.observe(viewLifecycleOwner) { users ->
-            if(users == null) {
-                showEmptyState(true)
-                showNoData(false)
-            } else if (users.isEmpty()) {
-                showNoData(true)
-                showEmptyState(false)
-            } else {
-                showEmptyState(false)
-                showNoData(false)
-            }
+        viewModel.users.observe(viewLifecycleOwner) { result ->
+            when(result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.rvUsers.visibility = View.GONE
+                    showEmptyState(false)
+                    showNoData(false)
+                }
 
-            userAdapter.updateData(users)
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+
+                    val users = result.data
+                    if(users.isEmpty()) {
+                        if(binding.searchView.text.toString().isEmpty()) {
+                            showEmptyState(true)
+                            showNoData(false)
+                        } else {
+                            showEmptyState(false)
+                            showNoData(true)
+                        }
+                    } else {
+                        showEmptyState(false)
+                        showNoData(false)
+                    }
+
+                    userAdapter.updateData(users)
+                    binding.rvUsers.visibility = View.VISIBLE
+                }
+
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.rvUsers.visibility = View.GONE
+                    showEmptyState(false)
+                    showNoData(true)
+                    Error(binding.root, result.message).show()
+                }
+            }
         }
 
         viewModel.searchQuery.observe(viewLifecycleOwner) { query ->
             binding.searchBar.text = query
             binding.searchBar.menu.findItem(R.id.action_clear).isVisible = query.isNotEmpty()
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-            Error(binding.root, errorMessage).show()
-        }
-
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            if(isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-
-                showEmptyState(false)
-                showNoData(false)
-
-                binding.rvUsers.visibility = View.GONE
-            } else {
-                binding.progressBar.visibility = View.GONE
-                binding.rvUsers.visibility = View.VISIBLE
-            }
         }
     }
 

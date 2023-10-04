@@ -2,45 +2,25 @@ package com.fauzan.githubuser.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.fauzan.githubuser.data.response.User
-import com.fauzan.githubuser.ui.ApiViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.fauzan.githubuser.data.Result
+import com.fauzan.githubuser.data.UserRepository
+import com.fauzan.githubuser.data.local.entity.UserEntity
+import kotlinx.coroutines.launch
 
-class HomeViewModel: ApiViewModel() {
+class HomeViewModel(private val userRepository: UserRepository): ViewModel() {
 
-    private val _users = MutableLiveData<List<User>?>()
-    val users: LiveData<List<User>?> = _users
+    val users: LiveData<Result<List<UserEntity>>> = userRepository.users
 
     private val _searchQuery = MutableLiveData<String>()
     val searchQuery: LiveData<String> = _searchQuery
 
     fun searchUsers(query: String) {
-        _searchQuery.postValue(query)
-        if(query.isEmpty()) {
-            _users.postValue(null)
-        } else {
-            request(
-                client = apiService.getUsers(query),
-                onResponse = { response ->
-                    if(response.isSuccessful) {
-                        val responseBody = response.body()
-                        if(responseBody == null) {
-                            _users.postValue(null)
-                        } else {
-                            _users.postValue(responseBody.items)
-                        }
-                    } else {
-                        setError(when(response.code()) {
-                            401 -> "401: Bad Request"
-                            403 -> "403: Forbidden"
-                            404 -> "404: Not Found"
-                            else -> "Error: ${response.message()}"
-                        })
-                    }
-                },
-                onFailure = { error ->
-                    setError("Error: ${error.message}")
-                }
-            )
+        _searchQuery.value = query
+
+        viewModelScope.launch {
+            userRepository.searchUsers(query)
         }
     }
 }

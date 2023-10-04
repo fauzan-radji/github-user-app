@@ -31,7 +31,7 @@ internal class HomeFragmentTest {
 
     // Test 1: Check search feature and click the first item in the recyclerview
     @Test
-    fun checkSearchFeature() {
+    fun assertSearchAndClick() {
         // Step 1: Check if the search bar is displayed
         onView(withId(R.id.search_bar)).check(matches(isDisplayed()))
 

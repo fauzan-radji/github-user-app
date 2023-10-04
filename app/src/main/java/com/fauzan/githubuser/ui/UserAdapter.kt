@@ -6,22 +6,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.fauzan.githubuser.R
-import com.fauzan.githubuser.data.response.User
+import com.fauzan.githubuser.data.local.entity.UserEntity
 import com.fauzan.githubuser.databinding.ItemUserBinding
 import com.fauzan.githubuser.diffutil.UserDiffUtilCallback
 
-class UserAdapter(private val users: MutableList<User>, private val onItemClickCallback: (User) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
-    fun updateData(newUsers: List<User>?) {
-        val diffResult = DiffUtil.calculateDiff(UserDiffUtilCallback(users, newUsers ?: listOf()))
+class UserAdapter(private val users: MutableList<UserEntity>, private val onItemClickCallback: (UserEntity) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
+    fun updateData(newUsers: List<UserEntity>) {
+        val diffCallback = UserDiffUtilCallback(users, newUsers)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         users.clear()
-        if (newUsers != null) {
-            users.addAll(newUsers)
-        }
+        users.addAll(newUsers)
         diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(private val binding: ItemUserBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: User) {
+        fun bind(user: UserEntity) {
             binding.tvUsername.text = user.login
             binding.tvUserUrl.text = itemView.resources.getString(R.string.user_url, user.login)
             Glide.with(itemView)

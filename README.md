@@ -57,7 +57,7 @@ This is a simple project to show user information from Github API. This applicat
   - [ ] Create FavoriteViewModelTest
   - [ ] Create ThemeViewModelTest
 - [ ] UI Testing
-  - [ ] Create HomeFragmentTest
+  - [x] Create HomeFragmentTest
     - [x] Search & Click User Testing
   - [ ] Create DetailFragmentTest
     - [ ] Swipe Tab Testing
@@ -72,12 +72,11 @@ This is a simple project to show user information from Github API. This applicat
     - [ ] Click FavoriteUser Testing
     - [ ] Click Unfavorite Testing
   - [ ] Create ThemeFragmentTest
-- [ ] Database
-  - [ ] Create Repository for Favorite
-  - [ ] Create FavoriteDao
-  - [ ] Create FavoriteDatabase
-  - [ ] Create FavoriteEntity
-  - [ ] Create FavoriteViewModel
+- [x] Database
+  - [x] Create UserRepository
+  - [x] Create UserDao
+  - [x] Create GithubUserDatabase
+  - [x] Create UserEntity
 - [ ] Detail Page
   - [ ] FAB for Favorite in DetailFragment
   - [ ] Create/Insert favorite user
@@ -85,6 +84,7 @@ This is a simple project to show user information from Github API. This applicat
 - [ ] Favorite Page
   - [ ] Create FavoriteFragment
   - [ ] Layout for FavoriteFragment
+  - [ ] Create FavoriteViewModel
   - [ ] Read favorite user
 - [ ] Theme
   - [ ] Create ThemePreference
