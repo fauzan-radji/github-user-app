@@ -48,8 +48,13 @@ class DetailFragment : Fragment() {
 
         binding.fabFavorite?.setOnClickListener {
             user?.let { user ->
-                if (user.isFavorite) viewModel.removeFavorite(user)
-                else viewModel.addFavorite(user)
+                if (user.isFavorite) {
+                    viewModel.removeFavorite(user)
+                    binding.fabFavorite?.setImageResource(R.drawable.ic_favorite_border)
+                } else {
+                    viewModel.addFavorite(user)
+                    binding.fabFavorite?.setImageResource(R.drawable.ic_favorite)
+                }
             }
         }
     }

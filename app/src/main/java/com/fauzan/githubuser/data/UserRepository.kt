@@ -96,6 +96,8 @@ class UserRepository private constructor(
         } else {
             userDao.delete(user.toEntity())
         }
+
+        user.isFavorite = favoriteState
     }
 
     companion object {

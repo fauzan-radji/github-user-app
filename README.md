@@ -77,12 +77,12 @@ This is a simple project to show user information from Github API. This applicat
   - [x] Create UserDao
   - [x] Create GithubUserDatabase
   - [x] Create UserEntity
-- [ ] Detail Page
-  - [ ] FAB for Favorite in DetailFragment
-  - [ ] Create/Insert favorite user
-  - [ ] Delete favorite user
+- [x] Detail Page
+  - [x] FAB for Favorite in DetailFragment
+  - [x] Create/Insert favorite user
+  - [x] Delete favorite user
 - [ ] Favorite Page
-  - [ ] Create FavoriteFragment
+  - [x] Create FavoriteFragment
   - [ ] Layout for FavoriteFragment
   - [ ] Create FavoriteViewModel
   - [ ] Read favorite user
