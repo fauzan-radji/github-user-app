@@ -13,6 +13,5 @@ data class UserEntity(
     val publicRepos: Int = 0,
     val publicGists: Int = 0,
     val followers: Int = 0,
-    val following: Int = 0,
-    var isFavorite: Boolean = false,
+    val following: Int = 0
 )

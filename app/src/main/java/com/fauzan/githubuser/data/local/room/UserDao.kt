@@ -2,6 +2,7 @@ package com.fauzan.githubuser.data.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -12,9 +13,6 @@ interface UserDao {
     @Query("SELECT * FROM users")
     fun getAll(): LiveData<List<UserEntity>>
 
-    @Query("SELECT * FROM users WHERE isFavorite = 1")
-    fun getFavoriteUsers(): LiveData<List<UserEntity>>
-
     @Query("SELECT * FROM users WHERE login = :username")
     fun find(username: String): LiveData<UserEntity>
 
@@ -24,9 +22,12 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(users: List<UserEntity>)
 
-    @Query("DELETE FROM users WHERE isFavorite = 0")
-    suspend fun deleteAll()
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(user: UserEntity)
 
-    @Query("SELECT EXISTS(SELECT * FROM users WHERE login = :username AND isFavorite = 1)")
-    suspend fun checkUserIsFavorite(username: String): Boolean
+    @Delete
+    suspend fun delete(user: UserEntity)
+
+    @Query("SELECT EXISTS(SELECT * FROM users WHERE login = :username)")
+    suspend fun isExists(username: String): Boolean
 }

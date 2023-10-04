@@ -17,4 +17,5 @@
     <string name="title_favorite">Favorit</string>
     <string name="title_settings">Pengaturan</string>
     <string name="title_detail">Detail</string>
+    <string name="fab_content_description">favorite floating action button</string>
 </resources>

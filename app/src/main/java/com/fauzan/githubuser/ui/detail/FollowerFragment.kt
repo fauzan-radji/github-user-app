@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fauzan.githubuser.data.Result
-import com.fauzan.githubuser.data.local.entity.UserEntity
+import com.fauzan.githubuser.data.model.User
 import com.fauzan.githubuser.databinding.FragmentFollowerBinding
 import com.fauzan.githubuser.ui.UserAdapter
 import com.fauzan.githubuser.ui.ViewModelFactory
@@ -75,7 +75,7 @@ class FollowerFragment : Fragment() {
         }
     }
 
-    private fun observe(username: String, type: FollowerType, observer: (Result<List<UserEntity>>) -> Unit) {
+    private fun observe(username: String, type: FollowerType, observer: (Result<List<User>>) -> Unit) {
         when(type) {
             FollowerType.FOLLOWER -> {
                 viewModel.getUserFollowers(username).observe(viewLifecycleOwner, observer)
