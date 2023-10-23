@@ -1,13 +1,8 @@
 package com.fauzan.githubuser.ui.favorite
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.fauzan.githubuser.data.UserRepository
 
-class FavoriteViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is favorite Fragment"
-    }
-    val text: LiveData<String> = _text
+class FavoriteViewModel(private val userRepository: UserRepository) : ViewModel() {
+        fun getFavoriteUsers()= userRepository.getFavorites()
 }

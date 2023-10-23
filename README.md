@@ -32,15 +32,15 @@ This is a simple project to show user information from Github API. This applicat
 
 ### Required
 
-- [ ] Favorite user
-  - [ ] Add to favorite
-  - [ ] Remove from favorite
-  - [ ] Show favorite user
-- [ ] Theme
-  - [ ] Switch theme
-  - [ ] Save theme preference
-  - [ ] Load theme preference
-  - [ ] Text and Icon color based on theme
+- [x] Favorite user
+  - [x] Add to favorite
+  - [x] Remove from favorite
+  - [x] Show favorite user
+- [x] Theme
+  - [x] Switch theme
+  - [x] Save theme preference
+  - [x] Load theme preference
+  - [x] Text and Icon color based on theme
 
 ### Optional
 
@@ -81,11 +81,11 @@ This is a simple project to show user information from Github API. This applicat
   - [x] FAB for Favorite in DetailFragment
   - [x] Create/Insert favorite user
   - [x] Delete favorite user
-- [ ] Favorite Page
+- [x] Favorite Page
   - [x] Create FavoriteFragment
-  - [ ] Layout for FavoriteFragment
-  - [ ] Create FavoriteViewModel
-  - [ ] Read favorite user
+  - [x] Layout for FavoriteFragment
+  - [x] Create FavoriteViewModel
+  - [x] Read favorite user
 - [ ] Theme
   - [ ] Create ThemePreference
   - [ ] Create ThemeViewModel

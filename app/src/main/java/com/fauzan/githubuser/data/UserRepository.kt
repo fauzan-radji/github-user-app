@@ -3,6 +3,7 @@ package com.fauzan.githubuser.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import com.fauzan.githubuser.data.local.room.UserDao
 import com.fauzan.githubuser.data.model.User
 import com.fauzan.githubuser.data.remote.retrofit.ApiService
@@ -87,6 +88,25 @@ class UserRepository private constructor(
             emit(Result.Success(users))
         } catch (e: Exception) {
             emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun getFavorites(): LiveData<Result<List<User>>> {
+        val users = userDao.getAll()
+
+        return users.map { userEntities ->
+            Result.Success(userEntities.map { user ->
+                User(
+                    user.login,
+                    user.avatarUrl,
+                    user.name,
+                    user.publicRepos,
+                    user.publicGists,
+                    user.followers,
+                    user.following,
+                    true
+                )
+            })
         }
     }
 
